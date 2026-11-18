@@ -34,3 +34,43 @@ describe('package', function() {
 					 fs.readFileSync(path.join(ROOT, 'MIT-RINNE'), 'utf8'));
 	});
 });
+
+describe('documentation', function() {
+	const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+	const changelog = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+
+	it('README documents every config key', function() {
+		const config = require('../lib/config.js');
+		for (const k of config.PROGRAM_KEYS.concat(config.GLOBAL_KEYS)) {
+			assert.ok(readme.includes('`' + k + '`'), k);
+		}
+	});
+
+	it('README documents every command and option of the tools', function() {
+		for (const spec of [ require('../lib/config-tool.js').SPEC, require('../lib/ctl.js').SPEC ]) {
+			for (const [ name, c ] of Object.entries(spec.commands)) {
+				assert.ok(readme.includes('`' + name), spec.name + ' ' + name);
+				for (const o of (c.opts || [])) {
+					assert.ok(readme.includes('--' + o.longName), spec.name + ' ' + name + ' --' + o.longName);
+				}
+			}
+			for (const o of spec.globalOpts) {
+				assert.ok(readme.includes('--' + o.longName), spec.name + ' --' + o.longName);
+			}
+		}
+	});
+
+	it('README documents every environment variable', function() {
+		const src = [ 'daemon.js', 'config-tool.js', 'ctl.js' ]
+			  .map((f) => fs.readFileSync(path.join(ROOT, 'lib', f), 'utf8')).join('\n');
+		const vars = new Set(src.match(/TR_CLI_DAEMON_[A-Z_]+/g));
+		assert.ok(vars.size >= 4);
+		for (const v of vars) {
+			assert.ok(readme.includes('`' + v + '`'), v);
+		}
+	});
+
+	it('CHANGELOG has an entry for the package version', function() {
+		assert.ok(changelog.includes('\n' + pkg.version + '\n' + '-'.repeat(pkg.version.length) + '\n'));
+	});
+});
