@@ -2,6 +2,7 @@
 	"name": "tr-cli-daemon",
 	"version": "0.1.0",
 	"description": "Keep a set of foreground command line programs running, with prefixed and timestamped output",
+	"type": "commonjs",
 	"bin": {
 		"tr-cli-daemon": "bin/tr-cli-daemon.js",
 		"tr-cli-daemon-config": "bin/tr-cli-daemon-config.js",
@@ -23,7 +24,7 @@
 		"test": "node --test test/*-test.js"
 	},
 	"engines": {
-		"node": ">=20.0.0"
+		"node": ">=24.0.0"
 	},
 	"repository": {
 		"type": "git",

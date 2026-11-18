@@ -16,7 +16,7 @@ The package has three executables:
 - `tr-cli-daemon-ctl`, which sends commands (`restart`, `quit`,
   `status`) to a running daemon over its control socket.
 
-It requires Node.js 20 or newer. The only dependency is
+It requires Node.js 24 or newer. The only dependency is
 [optist](https://www.npmjs.com/package/optist).
 
 

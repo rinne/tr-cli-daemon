@@ -4,7 +4,7 @@ Changelog
 0.1.0
 -----
 
-First release.
+First release. Requires Node.js 24 or newer.
 
 - `tr-cli-daemon` runs the programs listed in a JSON config file in
   their own process groups.

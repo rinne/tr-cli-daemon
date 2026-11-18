@@ -70,6 +70,12 @@ describe('documentation', function() {
 		}
 	});
 
+	it('README states the Node.js version required by engines', function() {
+		const m = pkg.engines.node.match(/^>=(\d+)\.0\.0$/);
+		assert.ok(m, pkg.engines.node);
+		assert.ok(readme.includes('Node.js ' + m[1] + ' or newer'));
+	});
+
 	it('CHANGELOG has an entry for the package version', function() {
 		assert.ok(changelog.includes('\n' + pkg.version + '\n' + '-'.repeat(pkg.version.length) + '\n'));
 	});
