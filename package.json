@@ -1,0 +1,50 @@
+{
+	"name": "tr-cli-daemon",
+	"version": "0.1.0",
+	"description": "Keep a set of foreground command line programs running, with prefixed and timestamped output",
+	"bin": {
+		"tr-cli-daemon": "bin/tr-cli-daemon.js",
+		"tr-cli-daemon-config": "bin/tr-cli-daemon-config.js",
+		"tr-cli-daemon-ctl": "bin/tr-cli-daemon-ctl.js"
+	},
+	"files": [
+		"bin",
+		"lib",
+		"README.md",
+		"CHANGELOG.md",
+		"LICENSE",
+		"MIT-RINNE"
+	],
+	"dependencies": {
+		"optist": "^3.0.0"
+	},
+	"scripts": {
+		"prepublishOnly": "npm test",
+		"test": "node --test test/*-test.js"
+	},
+	"engines": {
+		"node": ">=20.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rinne/tr-cli-daemon.git"
+	},
+	"keywords": [
+		"daemon",
+		"supervisor",
+		"process",
+		"restart",
+		"cli",
+		"logs"
+	],
+	"author": {
+		"name": "Timo J. Rinne",
+		"email": "tri@iki.fi",
+		"url": "https://github.com/rinne/"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/rinne/tr-cli-daemon/issues"
+	},
+	"homepage": "https://github.com/rinne/tr-cli-daemon#readme"
+}
