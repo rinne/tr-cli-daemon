@@ -132,6 +132,34 @@ describe('control protocol', function() {
 		await h.waitUntil(() => afterCalled, 2000, 'after()');
 	});
 
+	it('lets a command run longer than the request timeout', async function() {
+		let afterCalled = false;
+		const server = new control.Server(sock, async function() {
+			await new Promise((r) => setTimeout(r, 600));
+			return { result: 'slow', after: () => { afterCalled = true; } };
+		}, 200);
+		servers.push(server);
+		await server.listen();
+		assert.deepEqual(await control.request(sock, 'quit', [], 3000), { ok: true, result: 'slow' });
+		await h.waitUntil(() => afterCalled, 2000, 'after()');
+	});
+
+	it('times out a request that is never completed', async function() {
+		const server = new control.Server(sock, async () => 'never', 200);
+		servers.push(server);
+		await server.listen();
+		const reply = await new Promise(function(resolve) {
+			const s = net.connect(sock);
+			let buf = '';
+			s.setEncoding('utf8');
+			s.on('data', (d) => { buf += d; });
+			s.on('close', () => resolve(buf));
+			s.on('error', () => {});
+			s.on('connect', () => s.write('{"command":'));
+		});
+		assert.equal(reply, '{"ok":false,"error":"request timed out"}\n');
+	});
+
 	it('rejects bad and oversized requests', async function() {
 		const server = new control.Server(sock, async () => 'never');
 		servers.push(server);
