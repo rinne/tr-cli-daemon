@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.1.1
+-----
+
+- A `quit` or `restart` over the control socket that took longer than
+  10 seconds was answered with "request timed out". After such a
+  `quit` the daemon stopped all programs but never exited, and
+  answered "busy" to every later command. This happened for example
+  when a program ignored SIGTERM and the default `killTimeout` of 10
+  seconds applied. The 10 second limit now applies only to sending
+  the request, and the reply comes when the command has finished.
+
 0.1.0
 -----
 
